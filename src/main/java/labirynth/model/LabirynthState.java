@@ -2,6 +2,7 @@ package labirynth.model;
 
 import puzzle.State;
 
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,13 +13,14 @@ import java.util.Set;
  * state-space search: querying legal moves, executing a move, and checking whether the
  * puzzle is solved. The board is described by a 7×7 matrix of {@link LabirynthCell} instances.
  */
-public class LabirynthState implements State<Direction,LabirynthState> {
+public class LabirynthState implements State<Direction, LabirynthState> {
 
     /**
      * A map from cell-type name to {@link LabirynthCell} instance, covering all possible
      * wall configurations. The key encodes the present walls separated by hyphens
      * (e.g. {@code "top-right"}); the empty string ({@code ""}) denotes a cell with no walls.
      * Cells are shared via the Flyweight pattern through {@link LabirynthCell#createCell}.
+     * The {@code "right-bottom-left"} entry is a {@link GoalLabirynthCell} — the target cell.
      */
     public static final Map<String, LabirynthCell> cellmap = Map.ofEntries(
             Map.entry("",                   LabirynthCell.createCell(false, false, false, false)),
@@ -34,7 +36,7 @@ public class LabirynthState implements State<Direction,LabirynthState> {
             Map.entry("bottom-left",        LabirynthCell.createCell(false, false, true,  true)),
             Map.entry("top-right-left",     LabirynthCell.createCell(true,  true,  false, true)),
             Map.entry("top-right-bottom",   LabirynthCell.createCell(true,  true,  true,  false)),
-            Map.entry("right-bottom-left",  LabirynthCell.createCell(false, true,  true,  true))
+            Map.entry("right-bottom-left",  GoalLabirynthCell.createCell(false, true, true, true))
     );
 
     /**
@@ -63,36 +65,79 @@ public class LabirynthState implements State<Direction,LabirynthState> {
     public static final int COLS = BOARD[0].length;
 
     /**
-     * Returns whether the current state is solved, i.e. whether the ball has reached the goal cell.
+     * The disk (ball) game piece currently on the board.
+     */
+    private final Disk disk;
+
+    /**
+     * The current position of the disk on the board.
+     * Updated by {@link #makeMove(Direction)} as the disk slides.
+     */
+    private Position position;
+
+    /**
+     * Creates a new {@code LabirynthState} with the disk placed at the top-left corner (0, 0).
+     */
+    public LabirynthState() {
+        this(new Disk(), new Position(0, 0));
+    }
+
+    /**
+     * Creates a new {@code LabirynthState} with the given disk placed at the given position.
      *
-     * @return {@code true} if the ball is on the {@link GoalLabirynthCell} position; {@code false} otherwise
+     * @param disk     the disk game piece
+     * @param position the initial position of the disk on the board
+     */
+    public LabirynthState(Disk disk, Position position) {
+        this.disk = disk;
+        this.position = position;
+    }
+
+    /**
+     * Returns whether the current state is solved, i.e. whether the disk has reached the goal cell.
+     *
+     * @return {@code true} if the disk is on the {@link GoalLabirynthCell}; {@code false} otherwise
      */
     @Override
     public boolean isSolved() {
-        return false;
+        return BOARD[position.row()][position.col()] instanceof GoalLabirynthCell;
     }
 
     /**
      * Returns whether the given move is legal in the current state.
-     * A move is legal if no wall blocks the ball's path and the ball would not leave the board.
+     * A move is legal if the current cell has no wall in that direction and
+     * the adjacent cell in that direction is within the board bounds.
      *
      * @param move the direction to check
      * @return {@code true} if the move can be executed; {@code false} otherwise
      */
     @Override
     public boolean isLegalMove(Direction move) {
-        return false;
+        if (BOARD[position.row()][position.col()].hasWall(move)) return false;
+        int newRow = position.row() + move.getRowChange();
+        int newCol = position.col() + move.getColChange();
+        return newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS;
     }
 
     /**
      * Executes the given move on the current state.
-     * The ball rolls in the specified direction until it hits a wall or the edge of the board.
+     * The disk slides in the specified direction, advancing one cell at a time,
+     * until it is stopped by a wall on the current cell or by the edge of the board.
      *
      * @param move the direction to move; must be a legal move
      */
     @Override
     public void makeMove(Direction move) {
-
+        int row = position.row();
+        int col = position.col();
+        while (!BOARD[row][col].hasWall(move)) {
+            int nextRow = row + move.getRowChange();
+            int nextCol = col + move.getColChange();
+            if (nextRow < 0 || nextRow >= ROWS || nextCol < 0 || nextCol >= COLS) break;
+            row = nextRow;
+            col = nextCol;
+        }
+        position = new Position(row, col);
     }
 
     /**
@@ -102,16 +147,25 @@ public class LabirynthState implements State<Direction,LabirynthState> {
      */
     @Override
     public Set<Direction> getLegalMoves() {
-        return Set.of();
+        var legal = EnumSet.noneOf(Direction.class);
+        for (var dir : Direction.values()) {
+            if (isLegalMove(dir))
+            {
+                legal.add(dir);
+            }
+        }
+        return legal;
     }
 
     /**
      * Returns a deep copy of the current state on which modifications do not affect the original.
+     * Safe to share the same {@link Disk} and {@link Position} references because both are
+     * effectively immutable within the context of a single state.
      *
      * @return an independent copy of the current state
      */
     @Override
     public LabirynthState copy() {
-        return null;
+        return new LabirynthState(disk, position);
     }
 }
