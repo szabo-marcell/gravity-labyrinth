@@ -9,7 +9,7 @@ package labirynth.model;
 public class GoalLabirynthCell extends LabirynthCell {
 
     /**
-     * Constructs a new {@code GoalLabirynthCell} instance with the given wall configuration.
+     * Constructs a new {@code GoalLabirynthCell} instance with the given wall configuration
      *
      * @param wallTop    {@code true} if the cell has a top wall
      * @param wallRight  {@code true} if the cell has a right wall
