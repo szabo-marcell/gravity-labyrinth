@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="40.0" style="-fx-font-size: 18;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rollingdice.gui.OpeningController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 250%; -fx-font-weight: bold;" text="Gravity Labyrinth" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font></Label>
+        <ImageView fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@img.png" />
+            </image></ImageView>
+        <Label text="A gravitációs labirintus lényege, hogy a startcellán álló korongot a célcellába kell juttatnia a játékosnak úgy, hogy a golyó csak jobbra, balra, felfele és lefele mozoghat, és minden egyes mozgásnál el kell gurulnia egy falig, pont úgy, mintha a korongot egy vonzóerő mozgatná." textAlignment="CENTER" wrapText="true" />
+        <VBox alignment="CENTER" focusTraversable="true" spacing="10.0">
+            <children>
+                <Label labelFor="${playerNameField}" text="Your name:" />
+                <TextField fx:id="playerNameField" alignment="CENTER" maxWidth="-Infinity" prefColumnCount="20" promptText="Enter your name" />
+            </children>
+        </VBox>
+        <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStart" style="-fx-background-color: #E63946; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 150%; -fx-font-weight: bold; -fx-cursor: hand;" text="Start">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </Button>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
