@@ -1,7 +1,14 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/g5b-anKB)
-# TODO: the name of your project
+# Gravitációs labirintus (Gravity-Labirynth)
 
-TODO: a detailed description of your project (must contain at least the original description of the assignment)
+![img.png](img.png)
+
+
+Képzelj el egy fent látható játéktáblát! 
+A gravitációs labirintus lényege, hogy a startcellán álló korongot
+a célcellába kell juttatnia a játékosnak úgy, hogy a golyó csak jobbra,
+balra, felfele és lefele mozoghat, és minden egyes mozgásnál el kell
+gurulnia egy falig, pont úgy, mintha a korongot egy vonzóerő mozgatná.
 
 ## Building from Source
 
