@@ -4,7 +4,9 @@ import puzzle.State;
 
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import puzzle.solver.BreadthFirstSearch;
 
 /**
  * Represents the state of the labyrinth puzzle.
@@ -36,7 +38,8 @@ public class LabirynthState implements State<Direction, LabirynthState> {
             Map.entry("bottom-left",        LabirynthCell.createCell(false, false, true,  true)),
             Map.entry("top-right-left",     LabirynthCell.createCell(true,  true,  false, true)),
             Map.entry("top-right-bottom",   LabirynthCell.createCell(true,  true,  true,  false)),
-            Map.entry("right-bottom-left",  GoalLabirynthCell.createCell(false, true, true, true))
+            Map.entry("right-bottom-left-goal",  GoalLabirynthCell.createCell(false, true, true, true)),
+            Map.entry("right-bottom-left",  LabirynthCell.createCell(false, true, true, true))
     );
 
     /**
@@ -50,7 +53,7 @@ public class LabirynthState implements State<Direction, LabirynthState> {
             {cellmap.get("left"),           cellmap.get("bottom"),     cellmap.get("right"),             cellmap.get("left"),         cellmap.get(""),            cellmap.get("right"),  cellmap.get("right-left")       },
             {cellmap.get("left"),           cellmap.get("top"),        cellmap.get(""),                  cellmap.get("right-bottom"), cellmap.get("right-left"),  cellmap.get("left"),   cellmap.get("right-bottom")     },
             {cellmap.get("bottom-left"),    cellmap.get(""),           cellmap.get(""),                  cellmap.get("top"),          cellmap.get("bottom"),      cellmap.get(""),       cellmap.get("top-right")        },
-            {cellmap.get("top-left"),       cellmap.get("right"),      cellmap.get("right-bottom-left"), cellmap.get("left"),         cellmap.get("top"),         cellmap.get(""),       cellmap.get("right")            },
+            {cellmap.get("top-left"),       cellmap.get("right"),      cellmap.get("right-bottom-left-goal"), cellmap.get("left"),         cellmap.get("top"),         cellmap.get(""),       cellmap.get("right")            },
             {cellmap.get("bottom-left"),    cellmap.get("bottom"),     cellmap.get("top-bottom"),        cellmap.get("right-bottom"), cellmap.get("bottom-left"), cellmap.get("right-bottom"), cellmap.get("right-bottom-left")}
     };
 
@@ -79,7 +82,7 @@ public class LabirynthState implements State<Direction, LabirynthState> {
      * Creates a new {@code LabirynthState} with the disk placed at the top-left corner (0, 0).
      */
     public LabirynthState() {
-        this(new Disk(), new Position(0, 0));
+        this(new Disk(), new Position(1, 4));
     }
 
     /**
@@ -167,5 +170,28 @@ public class LabirynthState implements State<Direction, LabirynthState> {
     @Override
     public LabirynthState copy() {
         return new LabirynthState(disk, position);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        return (o instanceof LabirynthState that)
+                && (disk.equals(that.disk))
+                && Objects.equals(position, that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(disk, position);
+    }
+    @Override
+    public String toString() {
+        return String.format("LabirynthState[disk=%s,position=%s]", disk,position);
+    }
+    static void main() {
+        var labirynth = new LabirynthState();
+        new BreadthFirstSearch<Direction, LabirynthState>()
+                .solveAndPrintSolution(labirynth);
     }
 }
