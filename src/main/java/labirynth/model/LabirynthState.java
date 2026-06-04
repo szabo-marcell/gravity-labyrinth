@@ -22,7 +22,7 @@ public class LabirynthState implements State<Direction, LabirynthState> {
      * wall configurations. The key encodes the present walls separated by hyphens
      * (e.g. {@code "top-right"}); the empty string ({@code ""}) denotes a cell with no walls.
      * Cells are shared via the Flyweight pattern through {@link LabirynthCell#createCell}.
-     * The {@code "right-bottom-left"} entry is a {@link GoalLabirynthCell} — the target cell.
+     * The {@code "right-bottom-left"} entry is a {@link GoalLabyrinthCell} — the target cell.
      */
     public static final Map<String, LabirynthCell> cellmap = Map.ofEntries(
             Map.entry("",                   LabirynthCell.createCell(false, false, false, false)),
@@ -38,7 +38,7 @@ public class LabirynthState implements State<Direction, LabirynthState> {
             Map.entry("bottom-left",        LabirynthCell.createCell(false, false, true,  true)),
             Map.entry("top-right-left",     LabirynthCell.createCell(true,  true,  false, true)),
             Map.entry("top-right-bottom",   LabirynthCell.createCell(true,  true,  true,  false)),
-            Map.entry("right-bottom-left-goal",  GoalLabirynthCell.createCell(false, true, true, true)),
+            Map.entry("right-bottom-left-goal",  GoalLabyrinthCell.createCell(false, true, true, true)),
             Map.entry("right-bottom-left",  LabirynthCell.createCell(false, true, true, true))
     );
 
@@ -99,11 +99,11 @@ public class LabirynthState implements State<Direction, LabirynthState> {
     /**
      * Returns whether the current state is solved, i.e. whether the disk has reached the goal cell.
      *
-     * @return {@code true} if the disk is on the {@link GoalLabirynthCell}; {@code false} otherwise
+     * @return {@code true} if the disk is on the {@link GoalLabyrinthCell}; {@code false} otherwise
      */
     @Override
     public boolean isSolved() {
-        return BOARD[position.row()][position.col()] instanceof GoalLabirynthCell;
+        return BOARD[position.row()][position.col()] instanceof GoalLabyrinthCell;
     }
 
     /**
