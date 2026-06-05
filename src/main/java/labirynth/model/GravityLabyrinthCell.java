@@ -7,14 +7,14 @@ import java.util.*;
  * Applies the Flyweight design pattern: cells with the same wall configuration share a single
  * instance, ensured by the {@link #createCell(boolean, boolean, boolean, boolean)} factory method.
  */
-public class LabyrinthCell {
+public class GravityLabyrinthCell {
 
     /**
      * Cache of already created cell instances for the Flyweight pattern implementation.
      * The key is a list of four booleans indicating wall presence in
      * {@code [top, right, bottom, left]} order.
      */
-    private static final Map<List<Boolean>, LabyrinthCell> cells = new HashMap<>();
+    private static final Map<List<Boolean>, GravityLabyrinthCell> cells = new HashMap<>();
 
     /**
      * The set of directions on which this cell has a wall.
@@ -34,9 +34,9 @@ public class LabyrinthCell {
      * @param wallLeft   {@code true} if the cell has a left wall
      * @return the {@code LabirynthCell} instance with the specified wall configuration
      */
-    public static LabyrinthCell createCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
+    public static GravityLabyrinthCell createCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
         var key = List.of(wallTop, wallRight, wallBottom, wallLeft);
-        return cells.computeIfAbsent(key, k -> new LabyrinthCell(wallTop, wallRight, wallBottom, wallLeft));
+        return cells.computeIfAbsent(key, k -> new GravityLabyrinthCell(wallTop, wallRight, wallBottom, wallLeft));
     }
 
     /**
@@ -48,7 +48,7 @@ public class LabyrinthCell {
      * @param wallBottom {@code true} if the cell has a bottom ({@link Direction#SOUTH}) wall
      * @param wallLeft   {@code true} if the cell has a left wall
      */
-    protected LabyrinthCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
+    protected GravityLabyrinthCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
         walls = EnumSet.noneOf(Direction.class);
         if (wallTop)    walls.add(Direction.NORTH);
         if (wallRight)  walls.add(Direction.EAST);
@@ -65,11 +65,17 @@ public class LabyrinthCell {
     }
 
     /**
-     * Returns a copy of the set of directions on which this cell has a wall.
-     * Modifying the returned set does not affect the internal state of this cell.
-     * @return a copy of the wall directions; an empty set if there are no walls
+     * {@return a copy of the wall directions; an empty set if there are no walls.}
      */
     public Set<Direction> getWalls() {
         return EnumSet.copyOf(walls.isEmpty() ? EnumSet.noneOf(Direction.class) : walls);
+    }
+
+    /**
+     {@return a boolean variable which shows whether that cell is a dead end, whether it has three walls}
+     */
+    public boolean deadEnd()
+    {
+        return this.getWalls().size()==3;
     }
 }

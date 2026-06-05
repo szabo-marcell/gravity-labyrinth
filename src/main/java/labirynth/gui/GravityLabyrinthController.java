@@ -57,7 +57,7 @@ public class GravityLabyrinthController {
     @FXML
     private Label numberOfMovesLabel;
 
-    private LabyrinthState state;
+    private GravityLabyrinthState state;
 
     private Circle diskCircle;
 
@@ -81,7 +81,7 @@ public class GravityLabyrinthController {
      */
     @FXML
     private void initialize() {
-        state = new LabyrinthState();
+        state = new GravityLabyrinthState();
         initializeGrid();
         diskPutter();
         initializeNumberOfMoves();
@@ -90,15 +90,15 @@ public class GravityLabyrinthController {
 
     /**
      * Clears the board {@link GridPane} and redraws every cell according to
-     * the static {@link LabyrinthState} board definition.
+     * the static {@link GravityLabyrinthState} board definition.
      * Goal cells are highlighted in gold; wall sides are drawn as red borders.
      */
     private void initializeGrid() {
         Logger.debug("Initializing board");
         board.getChildren().clear();
-        for (var i = 0; i < LabyrinthState.ROWS; i++) {
-            for (var j = 0; j < LabyrinthState.COLS; j++) {
-                var cell = LabyrinthState.getCell(i, j);
+        for (var i = 0; i < GravityLabyrinthState.ROWS; i++) {
+            for (var j = 0; j < GravityLabyrinthState.COLS; j++) {
+                var cell = GravityLabyrinthState.getCell(i, j);
                 var square = squareDesigner(cell, i, j);
                 board.add(square, j, i);
             }
@@ -108,18 +108,18 @@ public class GravityLabyrinthController {
     /**
      * Builds a styled {@link StackPane} that visually represents a single labyrinth cell.
      * The background colour indicates whether the cell is the goal.
-     * @param cell the {@link LabyrinthCell} whose wall configuration drives the style
+     * @param cell the {@link GravityLabyrinthCell} whose wall configuration drives the style
      * @param row  the zero-based row index of this cell in the board
      * @param col  the zero-based column index of this cell in the board
      * @return a styled {@code StackPane} ready to be added to the board
      */
-    private StackPane squareDesigner(LabyrinthCell cell, int row, int col) {
+    private StackPane squareDesigner(GravityLabyrinthCell cell, int row, int col) {
         var square = new StackPane();
         square.setPrefSize(44, 44);
         boolean isGoal = cell instanceof GoalLabyrinthCell;
         String bgColor = isGoal ? "#f0c040" : "#16213e";
-        boolean drawRight  = col == LabyrinthState.COLS - 1 ;
-        boolean drawBottom = row == LabyrinthState.ROWS - 1 ;
+        boolean drawRight  = col == GravityLabyrinthState.COLS - 1 ;
+        boolean drawBottom = row == GravityLabyrinthState.ROWS - 1 ;
         String topC    = cell.hasWall(Direction.NORTH)   ? "#e94560" : "#ffffff";
         String rightC= (drawRight && cell.hasWall(Direction.EAST)) ? "#e94560" : (drawRight) ? "#ffffff" :"transparent";
         String leftC   = cell.hasWall(Direction.WEST)    ? "#e94560" : "#ffffff";
@@ -271,12 +271,12 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Resets the game to its initial state: creates a fresh {@link LabyrinthState},
+     * Resets the game to its initial state: creates a fresh {@link GravityLabyrinthState},
      * redraws the board, repositions the disk, and zeroes the move counter.
      */
     private void resetGame() {
         Logger.debug("Resetting game");
-        state = new LabyrinthState();
+        state = new GravityLabyrinthState();
         initializeGrid();
         diskPutter();
         numberOfMoves.set(0);
@@ -304,7 +304,7 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Delegates the move to {@link LabyrinthState#makeMove}, updates the disk position
+     * Delegates the move to {@link GravityLabyrinthState#makeMove}, updates the disk position
      * on screen, and increments the move counter.
      *
      * @param direction the direction in which the disk slides

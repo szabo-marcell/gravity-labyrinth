@@ -13,41 +13,41 @@ import puzzle.solver.BreadthFirstSearch;
  * <p>
  * Implements the {@link State} interface, which defines the operations required for
  * state-space search: querying legal moves, executing a move, and checking whether the
- * puzzle is solved. The board is described by a 7×7 matrix of {@link LabyrinthCell} instances.
+ * puzzle is solved. The board is described by a 7×7 matrix of {@link GravityLabyrinthCell} instances.
  */
-public class LabyrinthState implements State<Direction, LabyrinthState> {
+public class GravityLabyrinthState implements State<Direction, GravityLabyrinthState> {
 
     /**
-     * A map from cell-type name to {@link LabyrinthCell} instance, covering all possible
+     * A map from cell-type name to {@link GravityLabyrinthCell} instance, covering all possible
      * wall configurations. The key encodes the present walls separated by hyphens
      * (e.g. {@code "top-right"}); the empty string ({@code ""}) denotes a cell with no walls.
-     * Cells are shared via the Flyweight pattern through {@link LabyrinthCell#createCell}.
+     * Cells are shared via the Flyweight pattern through {@link GravityLabyrinthCell#createCell}.
      * The {@code "right-bottom-left"} entry is a {@link GoalLabyrinthCell} — the target cell.
      */
-    public static final Map<String, LabyrinthCell> cellmap = Map.ofEntries(
-            Map.entry("",                   LabyrinthCell.createCell(false, false, false, false)),
-            Map.entry("top",                LabyrinthCell.createCell(true,  false, false, false)),
-            Map.entry("right",              LabyrinthCell.createCell(false, true,  false, false)),
-            Map.entry("bottom",             LabyrinthCell.createCell(false, false, true,  false)),
-            Map.entry("left",               LabyrinthCell.createCell(false, false, false, true)),
-            Map.entry("top-right",          LabyrinthCell.createCell(true,  true,  false, false)),
-            Map.entry("top-left",           LabyrinthCell.createCell(true,  false, false, true)),
-            Map.entry("top-bottom",         LabyrinthCell.createCell(true,  false, true,  false)),
-            Map.entry("right-bottom",       LabyrinthCell.createCell(false, true,  true,  false)),
-            Map.entry("right-left",         LabyrinthCell.createCell(false, true,  false, true)),
-            Map.entry("bottom-left",        LabyrinthCell.createCell(false, false, true,  true)),
-            Map.entry("top-right-left",     LabyrinthCell.createCell(true,  true,  false, true)),
-            Map.entry("top-right-bottom",   LabyrinthCell.createCell(true,  true,  true,  false)),
+    public static final Map<String, GravityLabyrinthCell> cellmap = Map.ofEntries(
+            Map.entry("",                   GravityLabyrinthCell.createCell(false, false, false, false)),
+            Map.entry("top",                GravityLabyrinthCell.createCell(true,  false, false, false)),
+            Map.entry("right",              GravityLabyrinthCell.createCell(false, true,  false, false)),
+            Map.entry("bottom",             GravityLabyrinthCell.createCell(false, false, true,  false)),
+            Map.entry("left",               GravityLabyrinthCell.createCell(false, false, false, true)),
+            Map.entry("top-right",          GravityLabyrinthCell.createCell(true,  true,  false, false)),
+            Map.entry("top-left",           GravityLabyrinthCell.createCell(true,  false, false, true)),
+            Map.entry("top-bottom",         GravityLabyrinthCell.createCell(true,  false, true,  false)),
+            Map.entry("right-bottom",       GravityLabyrinthCell.createCell(false, true,  true,  false)),
+            Map.entry("right-left",         GravityLabyrinthCell.createCell(false, true,  false, true)),
+            Map.entry("bottom-left",        GravityLabyrinthCell.createCell(false, false, true,  true)),
+            Map.entry("top-right-left",     GravityLabyrinthCell.createCell(true,  true,  false, true)),
+            Map.entry("top-right-bottom",   GravityLabyrinthCell.createCell(true,  true,  true,  false)),
             Map.entry("right-bottom-left-goal",  GoalLabyrinthCell.createCell(false, true, true, true)),
-            Map.entry("right-bottom-left",  LabyrinthCell.createCell(false, true, true, true))
+            Map.entry("right-bottom-left",  GravityLabyrinthCell.createCell(false, true, true, true))
     );
 
     /**
      * The 7×7 matrix of cells that makes up the labyrinth board.
-     * Each element references a {@link LabyrinthCell} instance from {@link #cellmap}.
+     * Each element references a {@link GravityLabyrinthCell} instance from {@link #cellmap}.
      * Row and column indices start at (0, 0) in the top-left corner.
      */
-    private static final LabyrinthCell[][] BOARD = {
+    private static final GravityLabyrinthCell[][] BOARD = {
             {cellmap.get("top-right-left"), cellmap.get("top-left"),  cellmap.get("top-bottom"),        cellmap.get("top-right"),    cellmap.get("top-left"),    cellmap.get("top"),    cellmap.get("top-right-bottom") },
             {cellmap.get("left"),           cellmap.get(""),           cellmap.get("top"),               cellmap.get(""),             cellmap.get(""),            cellmap.get(""),       cellmap.get("top-right")        },
             {cellmap.get("left"),           cellmap.get("bottom"),     cellmap.get("right"),             cellmap.get("left"),         cellmap.get(""),            cellmap.get("right"),  cellmap.get("right-left")       },
@@ -81,11 +81,11 @@ public class LabyrinthState implements State<Direction, LabyrinthState> {
     /**
      * Creates a new {@code LabirynthState} with the disk placed at the top-left corner (0, 0).
      */
-    public LabyrinthState()
+    public GravityLabyrinthState()
     {
         this(1,4);
     }
-    public LabyrinthState(int posX, int posY)
+    public GravityLabyrinthState(int posX, int posY)
     {
         this.disk= new Disk();
         this.position= new Position(posX,posY);
@@ -97,7 +97,7 @@ public class LabyrinthState implements State<Direction, LabyrinthState> {
      * @param disk     the disk game piece
      * @param position the initial position of the disk on the board
      */
-    public LabyrinthState(Disk disk, Position position) {
+    public GravityLabyrinthState(Disk disk, Position position) {
         this.disk = disk;
         this.position = position;
     }
@@ -174,15 +174,15 @@ public class LabyrinthState implements State<Direction, LabyrinthState> {
      * @return an independent copy of the current state
      */
     @Override
-    public LabyrinthState copy() {
-        return new LabyrinthState(disk, position);
+    public GravityLabyrinthState copy() {
+        return new GravityLabyrinthState(disk, position);
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        return (o instanceof LabyrinthState that)
+        return (o instanceof GravityLabyrinthState that)
                 && (disk.equals(that.disk))
                 && Objects.equals(position, that.position);
     }
@@ -201,7 +201,7 @@ public class LabyrinthState implements State<Direction, LabyrinthState> {
         return disk;
     }
 
-    public static LabyrinthCell getCell(int row, int col) {
+    public static GravityLabyrinthCell getCell(int row, int col) {
         return BOARD[row][col];
     }
 
@@ -213,8 +213,8 @@ public class LabyrinthState implements State<Direction, LabyrinthState> {
 
     static void main()
     {
-        var labirynth = new LabyrinthState();
-        new BreadthFirstSearch<Direction, LabyrinthState>()
+        var labirynth = new GravityLabyrinthState();
+        new BreadthFirstSearch<Direction, GravityLabyrinthState>()
                 .solveAndPrintSolution(labirynth);
     }
 }
