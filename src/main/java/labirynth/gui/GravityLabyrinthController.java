@@ -57,7 +57,7 @@ public class GravityLabyrinthController {
     @FXML
     private Label numberOfMovesLabel;
 
-    private LabirynthState state;
+    private LabyrinthState state;
 
     private Circle diskCircle;
 
@@ -81,7 +81,7 @@ public class GravityLabyrinthController {
      */
     @FXML
     private void initialize() {
-        state = new LabirynthState();
+        state = new LabyrinthState();
         initializeGrid();
         diskPutter();
         initializeNumberOfMoves();
@@ -90,16 +90,16 @@ public class GravityLabyrinthController {
 
     /**
      * Clears the board {@link GridPane} and redraws every cell according to
-     * the static {@link LabirynthState} board definition.
+     * the static {@link LabyrinthState} board definition.
      * Goal cells are highlighted in gold; wall sides are drawn as red borders.
      */
     private void initializeGrid() {
         Logger.debug("Initializing board");
         board.getChildren().clear();
-        for (var i = 0; i < LabirynthState.ROWS; i++) {
-            for (var j = 0; j < LabirynthState.COLS; j++) {
-                var cell = LabirynthState.getCell(i, j);
-                var square = squareDesigner(cell);
+        for (var i = 0; i < LabyrinthState.ROWS; i++) {
+            for (var j = 0; j < LabyrinthState.COLS; j++) {
+                var cell = LabyrinthState.getCell(i, j);
+                var square = squareDesigner(cell, i, j);
                 board.add(square, j, i);
             }
         }
@@ -107,29 +107,31 @@ public class GravityLabyrinthController {
 
     /**
      * Builds a styled {@link StackPane} that visually represents a single labyrinth cell.
-     * The background colour indicates whether the cell is the goal; each wall direction
-     * that is present is rendered as a 3-pixel red border on the corresponding side.
-     *
-     * @param cell the {@link LabirynthCell} whose wall configuration drives the style
+     * The background colour indicates whether the cell is the goal.
+     * @param cell the {@link LabyrinthCell} whose wall configuration drives the style
+     * @param row  the zero-based row index of this cell in the board
+     * @param col  the zero-based column index of this cell in the board
      * @return a styled {@code StackPane} ready to be added to the board
      */
-    private StackPane squareDesigner(LabirynthCell cell) {
+    private StackPane squareDesigner(LabyrinthCell cell, int row, int col) {
         var square = new StackPane();
         square.setPrefSize(44, 44);
         boolean isGoal = cell instanceof GoalLabyrinthCell;
         String bgColor = isGoal ? "#f0c040" : "#16213e";
-        String topC    = cell.hasWall(Direction.NORTH) ? "#e94560" : "transparent";
-        String rightC  = cell.hasWall(Direction.EAST)  ? "#e94560" : "transparent";
-        String bottomC = cell.hasWall(Direction.SOUTH) ? "#e94560" : "transparent";
-        String leftC   = cell.hasWall(Direction.WEST)  ? "#e94560" : "transparent";
+        boolean drawRight  = col == LabyrinthState.COLS - 1 ;
+        boolean drawBottom = row == LabyrinthState.ROWS - 1 ;
+        String topC    = cell.hasWall(Direction.NORTH)   ? "#e94560" : "#ffffff";
+        String rightC= (drawRight && cell.hasWall(Direction.EAST)) ? "#e94560" : (drawRight) ? "#ffffff" :"transparent";
+        String leftC   = cell.hasWall(Direction.WEST)    ? "#e94560" : "#ffffff";
+        String bottomC= (drawBottom && cell.hasWall(Direction.SOUTH)) ? "#e94560" : (drawBottom) ? "#ffffff" :"transparent";
         square.setStyle(
                 "-fx-background-color: " + bgColor + ";" +
                 "-fx-border-color: " + topC + " " + rightC + " " + bottomC + " " + leftC + ";" +
-                "-fx-border-width: " + (cell.hasWall(Direction.NORTH) ? 3 : 0) + " " +
-                        (cell.hasWall(Direction.EAST)  ? 3 : 0) + " " +
-                        (cell.hasWall(Direction.SOUTH) ? 3 : 0) + " " +
-                        (cell.hasWall(Direction.WEST)  ? 3 : 0) + ";"
-        );
+                "-fx-border-width: " + (cell.hasWall(Direction.NORTH)  ? 7 : 1) + " " +
+                                       ((drawRight && cell.hasWall(Direction.EAST) ? 7 : 1) + " " +
+                                       ((drawBottom && cell.hasWall(Direction.SOUTH))? 7 : 1) + " " +
+                                       (cell.hasWall(Direction.WEST)   ? 7 : 1) + ";"
+        ));
         return square;
     }
 
@@ -269,12 +271,12 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Resets the game to its initial state: creates a fresh {@link LabirynthState},
+     * Resets the game to its initial state: creates a fresh {@link LabyrinthState},
      * redraws the board, repositions the disk, and zeroes the move counter.
      */
     private void resetGame() {
         Logger.debug("Resetting game");
-        state = new LabirynthState();
+        state = new LabyrinthState();
         initializeGrid();
         diskPutter();
         numberOfMoves.set(0);
@@ -302,7 +304,7 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Delegates the move to {@link LabirynthState#makeMove}, updates the disk position
+     * Delegates the move to {@link LabyrinthState#makeMove}, updates the disk position
      * on screen, and increments the move counter.
      *
      * @param direction the direction in which the disk slides

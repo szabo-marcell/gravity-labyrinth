@@ -7,14 +7,14 @@ import java.util.*;
  * Applies the Flyweight design pattern: cells with the same wall configuration share a single
  * instance, ensured by the {@link #createCell(boolean, boolean, boolean, boolean)} factory method.
  */
-public class LabirynthCell {
+public class LabyrinthCell {
 
     /**
      * Cache of already created cell instances for the Flyweight pattern implementation.
      * The key is a list of four booleans indicating wall presence in
      * {@code [top, right, bottom, left]} order.
      */
-    private static final Map<List<Boolean>, LabirynthCell> cells = new HashMap<>();
+    private static final Map<List<Boolean>, LabyrinthCell> cells = new HashMap<>();
 
     /**
      * The set of directions on which this cell has a wall.
@@ -34,9 +34,9 @@ public class LabirynthCell {
      * @param wallLeft   {@code true} if the cell has a left wall
      * @return the {@code LabirynthCell} instance with the specified wall configuration
      */
-    public static LabirynthCell createCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
+    public static LabyrinthCell createCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
         var key = List.of(wallTop, wallRight, wallBottom, wallLeft);
-        return cells.computeIfAbsent(key, k -> new LabirynthCell(wallTop, wallRight, wallBottom, wallLeft));
+        return cells.computeIfAbsent(key, k -> new LabyrinthCell(wallTop, wallRight, wallBottom, wallLeft));
     }
 
     /**
@@ -48,7 +48,7 @@ public class LabirynthCell {
      * @param wallBottom {@code true} if the cell has a bottom ({@link Direction#SOUTH}) wall
      * @param wallLeft   {@code true} if the cell has a left wall
      */
-    protected LabirynthCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
+    protected LabyrinthCell(boolean wallTop, boolean wallRight, boolean wallBottom, boolean wallLeft) {
         walls = EnumSet.noneOf(Direction.class);
         if (wallTop)    walls.add(Direction.NORTH);
         if (wallRight)  walls.add(Direction.EAST);

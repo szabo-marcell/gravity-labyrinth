@@ -6,12 +6,12 @@ import java.util.Map;
 
 /**
  * Represents the goal cell of the labyrinth.
- * Extends {@link LabirynthCell} and marks the cell that the ball must reach
+ * Extends {@link LabyrinthCell} and marks the cell that the ball must reach
  * to solve the puzzle. The wall configuration works identically to the base cell.
  * Applies the Flyweight pattern via {@link #createCell} so that only one instance
- * exists per wall configuration, consistent with {@link LabirynthCell}.
+ * exists per wall configuration, consistent with {@link LabyrinthCell}.
  */
-public class GoalLabyrinthCell extends LabirynthCell {
+public class GoalLabyrinthCell extends LabyrinthCell {
 
     /**
      * Cache of already created goal-cell instances for the Flyweight pattern.

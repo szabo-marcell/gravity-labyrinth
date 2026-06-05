@@ -20,7 +20,7 @@
                    style="-fx-font-size: 13; -fx-text-fill: #8892b0;" />
         </VBox>
 
-        <GridPane fx:id="board" hgap="6.0" vgap="6.0" alignment="CENTER"
+        <GridPane fx:id="board" hgap="0" vgap="0" alignment="CENTER"
                   prefHeight="350.0" prefWidth="350.0"
                   style="-fx-background-color: #0f3460; -fx-padding: 8; -fx-background-radius: 10;">
             <columnConstraints>
