@@ -53,28 +53,41 @@
                               -fx-border-color: #4a6fa5; -fx-border-radius: 6; -fx-background-radius: 6;" />
         </HBox>
 
-        <GridPane alignment="CENTER" hgap="6.0" vgap="6.0">
-            <Button fx:id="upButton" text="▲" onAction="#onUpButton"
-                    GridPane.columnIndex="1" GridPane.rowIndex="0"
-                    prefWidth="60" prefHeight="60"
-                    style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
-                           -fx-background-radius: 8; -fx-cursor: hand;" />
-            <Button fx:id="leftButton" text="◄" onAction="#onLeftButton"
-                    GridPane.columnIndex="0" GridPane.rowIndex="1"
-                    prefWidth="60" prefHeight="60"
-                    style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
-                           -fx-background-radius: 8; -fx-cursor: hand;" />
-            <Button fx:id="rightButton" text="►" onAction="#onRightButton"
-                    GridPane.columnIndex="2" GridPane.rowIndex="1"
-                    prefWidth="60" prefHeight="60"
-                    style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
-                           -fx-background-radius: 8; -fx-cursor: hand;" />
-            <Button fx:id="downButton" text="▼" onAction="#onDownButton"
-                    GridPane.columnIndex="1" GridPane.rowIndex="2"
-                    prefWidth="60" prefHeight="60"
-                    style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
-                           -fx-background-radius: 8; -fx-cursor: hand;" />
-        </GridPane>
+        <HBox alignment="CENTER" spacing="24.0">
+            <GridPane alignment="CENTER" hgap="6.0" vgap="6.0">
+                <Button fx:id="upButton" text="▲" onAction="#onUpButton"
+                        GridPane.columnIndex="1" GridPane.rowIndex="0"
+                        prefWidth="60" prefHeight="60"
+                        style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button fx:id="leftButton" text="◄" onAction="#onLeftButton"
+                        GridPane.columnIndex="0" GridPane.rowIndex="1"
+                        prefWidth="60" prefHeight="60"
+                        style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button fx:id="downButton" text="▼" onAction="#onDownButton"
+                        GridPane.columnIndex="1" GridPane.rowIndex="1"
+                        prefWidth="60" prefHeight="60"
+                        style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button fx:id="rightButton" text="►" onAction="#onRightButton"
+                        GridPane.columnIndex="2" GridPane.rowIndex="1"
+                        prefWidth="60" prefHeight="60"
+                        style="-fx-font-size: 22; -fx-background-color: #4a6fa5; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+            </GridPane>
+
+            <VBox alignment="CENTER" spacing="8.0">
+                <Button fx:id="resetButton" text="Újrakezd" onAction="#onResetButton"
+                        prefWidth="100" prefHeight="40"
+                        style="-fx-font-size: 14; -fx-background-color: #4a6f22; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button fx:id="exitButton" text="Kilépés" onAction="#onExitButton"
+                        prefWidth="100" prefHeight="40"
+                        style="-fx-font-size: 14; -fx-background-color: #7a2020; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
 
     </children>
 </VBox>

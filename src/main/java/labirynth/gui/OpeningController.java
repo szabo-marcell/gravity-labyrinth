@@ -19,7 +19,7 @@ public class OpeningController {
         Logger.debug("Click on Start button");
         Logger.info("Player name: {}", playerNameField.getText());
         Stage stage = JFXUtils.getWindow(playerNameField);
-        JFXUtils.loadFXML(stage, OpeningController.class, "/game.fxml",
+        JFXUtils.loadFXML(stage, OpeningController.class, "/labirynth/model/game.fxml",
                 (GravityLabyrinthController controller) -> {
                     controller.setPlayerName(playerNameField.getText());
                 });

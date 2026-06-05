@@ -4,8 +4,9 @@ import javafx.application.Application;
 
 public class Main {
 
-    static void main() {
-        Application.launch(GravityLabyrinthApplication.class);
+    public static void main(String[] args) {
+
+        Application.launch(GravityLabyrinthApplication.class, args);
     }
 
 }
