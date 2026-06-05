@@ -81,8 +81,14 @@ public class LabirynthState implements State<Direction, LabirynthState> {
     /**
      * Creates a new {@code LabirynthState} with the disk placed at the top-left corner (0, 0).
      */
-    public LabirynthState() {
-        this(new Disk(), new Position(1, 4));
+    public LabirynthState()
+    {
+        this(1,4);
+    }
+    public LabirynthState(int posX, int posY)
+    {
+        this.disk= new Disk();
+        this.position= new Position(posX,posY);
     }
 
     /**
@@ -182,14 +188,19 @@ public class LabirynthState implements State<Direction, LabirynthState> {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(disk, position);
     }
+
     @Override
-    public String toString() {
+    public String toString()
+    {
         return String.format("LabirynthState[disk=%s,position=%s]", disk,position);
     }
-    static void main() {
+
+    static void main()
+    {
         var labirynth = new LabirynthState();
         new BreadthFirstSearch<Direction, LabirynthState>()
                 .solveAndPrintSolution(labirynth);
