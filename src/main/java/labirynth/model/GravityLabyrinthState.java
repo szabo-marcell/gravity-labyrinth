@@ -183,7 +183,6 @@ public class GravityLabyrinthState implements State<Direction, GravityLabyrinthS
             return true;
         }
         return (o instanceof GravityLabyrinthState that)
-                && (disk.equals(that.disk))
                 && Objects.equals(position, that.position);
     }
 
@@ -213,7 +212,7 @@ public class GravityLabyrinthState implements State<Direction, GravityLabyrinthS
     @Override
     public String toString()
     {
-        return String.format("LabirynthState[disk=%s,position=%s]", disk,position);
+        return String.format("GravityLabyrinthState[position=%s]",position);
     }
 
     static void main()
