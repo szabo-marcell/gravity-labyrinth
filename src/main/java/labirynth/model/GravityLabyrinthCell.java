@@ -74,7 +74,7 @@ public class GravityLabyrinthCell {
     /**
      {@return a boolean variable which shows whether that cell is a dead end, whether it has three walls}
      */
-    public boolean deadEnd()
+    public boolean isDeadEnd()
     {
         return this.getWalls().size()==3;
     }

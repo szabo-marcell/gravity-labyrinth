@@ -301,6 +301,10 @@ public class GravityLabyrinthController {
             Logger.info("Megoldottad a labirintust!");
             showSolvedAndExit();
         }
+        if(state.getCell().isDeadEnd() && !(state.isSolved()))
+        {
+            Logger.warn("Ez egy zsákutca!");
+        }
     }
 
     /**

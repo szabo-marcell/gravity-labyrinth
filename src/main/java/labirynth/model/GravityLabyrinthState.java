@@ -201,6 +201,11 @@ public class GravityLabyrinthState implements State<Direction, GravityLabyrinthS
         return disk;
     }
 
+    public GravityLabyrinthCell getCell()
+    {
+        return BOARD[this.position.row()][this.position.col()];
+    }
+
     public static GravityLabyrinthCell getCell(int row, int col) {
         return BOARD[row][col];
     }
