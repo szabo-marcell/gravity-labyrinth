@@ -4,7 +4,6 @@ import java.util.*;
 
 /**
  * Represents a single cell of the labyrinth, which may have walls on any of its four sides.
- * <p>
  * Applies the Flyweight design pattern: cells with the same wall configuration share a single
  * instance, ensured by the {@link #createCell(boolean, boolean, boolean, boolean)} factory method.
  */
@@ -22,6 +21,7 @@ public class LabirynthCell {
      * Only directions with an actual wall are included.
      */
     private final EnumSet<Direction> walls;
+
 
     /**
      * Factory method implementing the Flyweight design pattern.
@@ -57,10 +57,8 @@ public class LabirynthCell {
     }
 
     /**
-     * Returns whether this cell has a wall in the given direction.
-     *
+     * {@return {@code true} if there is a wall in the given direction; {@code false} otherwise}
      * @param direction the direction to check
-     * @return {@code true} if there is a wall in the given direction; {@code false} otherwise
      */
     public boolean hasWall(Direction direction) {
         return walls.contains(direction);
@@ -69,7 +67,6 @@ public class LabirynthCell {
     /**
      * Returns a copy of the set of directions on which this cell has a wall.
      * Modifying the returned set does not affect the internal state of this cell.
-     *
      * @return a copy of the wall directions; an empty set if there are no walls
      */
     public Set<Direction> getWalls() {

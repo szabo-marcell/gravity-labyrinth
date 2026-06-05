@@ -193,6 +193,18 @@ public class LabirynthState implements State<Direction, LabirynthState> {
         return Objects.hash(disk, position);
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public Disk getDisk() {
+        return disk;
+    }
+
+    public static LabirynthCell getCell(int row, int col) {
+        return BOARD[row][col];
+    }
+
     @Override
     public String toString()
     {

@@ -6,10 +6,8 @@ import java.util.Map;
 
 /**
  * Represents the goal cell of the labyrinth.
- * <p>
  * Extends {@link LabirynthCell} and marks the cell that the ball must reach
  * to solve the puzzle. The wall configuration works identically to the base cell.
- * <p>
  * Applies the Flyweight pattern via {@link #createCell} so that only one instance
  * exists per wall configuration, consistent with {@link LabirynthCell}.
  */
@@ -17,15 +15,11 @@ public class GoalLabyrinthCell extends LabirynthCell {
 
     /**
      * Cache of already created goal-cell instances for the Flyweight pattern.
-     * Kept separate from {@link LabirynthCell}'s cache so that the goal cell
-     * retains its distinct type at runtime.
      */
     private static final Map<List<Boolean>, GoalLabyrinthCell> cells = new HashMap<>();
 
     /**
      * Factory method implementing the Flyweight pattern for goal cells.
-     * Returns the existing instance if a goal cell with the given wall configuration already
-     * exists; otherwise creates and stores a new one.
      *
      * @param wallTop    {@code true} if the cell has a top wall
      * @param wallRight  {@code true} if the cell has a right wall
@@ -40,7 +34,7 @@ public class GoalLabyrinthCell extends LabirynthCell {
 
     /**
      * Constructs a new {@code GoalLabirynthCell} instance with the given wall configuration.
-     *
+     * It is the constructor of the class.
      * @param wallTop    {@code true} if the cell has a top wall
      * @param wallRight  {@code true} if the cell has a right wall
      * @param wallBottom {@code true} if the cell has a bottom wall
