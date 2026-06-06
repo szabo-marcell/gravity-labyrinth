@@ -36,3 +36,26 @@ You need a `settings.xml` file with the following content to store your PAT:
 ```
 
 The `settings.xml` file must be placed in the `.m2` directory in your home directory, i.e., in the same directory that stores your local Maven repository.
+
+
+
+Solution:
+GravityLabyrinthState[position=Position[row=1, col=4]];
+EAST GravityLabyrinthState[position=Position[row=1, col=6]];
+SOUTH GravityLabyrinthState[position=Position[row=3, col=6]];
+WEST GravityLabyrinthState[position=Position[row=3, col=5]];
+SOUTH GravityLabyrinthState[position=Position[row=6, col=5]];
+WEST GravityLabyrinthState[position=Position[row=6, col=4]];
+NORTH GravityLabyrinthState[position=Position[row=5, col=4]];
+WEST GravityLabyrinthState[position=Position[row=5, col=3]];
+SOUTH GravityLabyrinthState[position=Position[row=6, col=3]];
+WEST GravityLabyrinthState[position=Position[row=6, col=0]];
+NORTH GravityLabyrinthState[position=Position[row=5, col=0]];
+EAST GravityLabyrinthState[position=Position[row=5, col=1]];
+NORTH GravityLabyrinthState[position=Position[row=3, col=1]];
+EAST GravityLabyrinthState[position=Position[row=3, col=3]];
+NORTH GravityLabyrinthState[position=Position[row=0, col=3]];
+WEST GravityLabyrinthState[position=Position[row=0, col=1]];
+SOUTH GravityLabyrinthState[position=Position[row=2, col=1]];
+EAST GravityLabyrinthState[position=Position[row=2, col=2]];
+SOUTH GravityLabyrinthState[position=Position[row=5, col=2]]
