@@ -240,7 +240,7 @@ public class GravityLabyrinthController {
     private void initializeNumberOfMoves() {
         Platform.runLater(() -> Logger.debug("Játékos neve: {}", playerName.get()));
         numberOfMovesLabel.textProperty().bind(Bindings.when(playerName.isNotEmpty())
-                .then(playerName.concat(" játszik, lépése.:"))
+                .then(playerName.concat(" játszik, lépése:"))
                 .otherwise("Ismeretlen játékos játszik, lépése:"));
         numberOfMovesField.textProperty().bind(numberOfMoves.asString());
     }
