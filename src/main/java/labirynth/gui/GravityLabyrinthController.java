@@ -1,5 +1,7 @@
 package labirynth.gui;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -20,6 +22,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import labirynth.model.*;
 import org.pmw.tinylog.Logger;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -66,6 +75,20 @@ public class GravityLabyrinthController {
     private final StringProperty playerName = new SimpleStringProperty("");
 
     private static final String DEVELOPER_NAME = "Szabó Marcell";
+
+    private static final Path RESULTS_FILE;
+
+    static {
+        try {
+            RESULTS_FILE = Path.of(GravityLabyrinthController.class.getResource("").toURI())
+                    .resolve("result.json");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final ObjectMapper MAPPER =
+            new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     /**
      * Sets the player name displayed in the move counter label.
      *
@@ -231,7 +254,7 @@ public class GravityLabyrinthController {
      */
     @FXML
     private void onExitButton() {
-        Platform.exit();
+        exitGame();
     }
     @FXML
     private void onHelpButton()
@@ -265,7 +288,7 @@ public class GravityLabyrinthController {
             var scene = board.getScene();
             if (scene != null) {
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN), this::resetGame);
-                scene.getAccelerators().put(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN), Platform::exit);
+                scene.getAccelerators().put(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN), this::exitGame);
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN), this::helpGame);
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN), this::aboutGame);
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.UP),    () -> processMove(Direction.NORTH));
@@ -280,6 +303,18 @@ public class GravityLabyrinthController {
         });
     }
 
+    /**
+     * Makes the user break out from the puzzle without winning.
+     */
+    private void exitGame() {
+        saveResult(false);
+        Platform.exit();
+    }
+
+    /**
+     * Shows a help page to remind the user about the puzzle's description
+     * in case if he becomes lost.
+     */
     private void helpGame() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Segítőfül");
@@ -295,6 +330,12 @@ public class GravityLabyrinthController {
         );
         alert.showAndWait();
     }
+
+    /**
+     * Shows useful information about the project.
+     * Shows the name of the developer, the Java vendor, the Java version and
+     * the JavaFX version
+     */
     private void aboutGame() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Információs fül");
@@ -320,6 +361,7 @@ public class GravityLabyrinthController {
      */
     private void resetGame() {
         Logger.debug("Resetting game");
+        saveResult(false);
         state = new GravityLabyrinthState();
         initializeGrid();
         diskPutter();
@@ -361,9 +403,10 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Displays an information dialog congratulating the player, then exits the application.
+     * Displays an information dialog congratulating the player, saves the result, then exits.
      */
     private void showSolvedAndExit() {
+        saveResult(true);
         var alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Rejtvény megoldva!");
         alert.setHeaderText(null);
@@ -371,4 +414,28 @@ public class GravityLabyrinthController {
         alert.showAndWait();
         Platform.exit();
     }
+
+    /**
+     * Appends the current game result to a file.
+     * If the file does not yet exist an empty list is created first.
+     */
+    private void saveResult(boolean finished) {
+        var file = RESULTS_FILE.toAbsolutePath().toFile();
+        try {
+            List<GameResult> results = file.exists()
+                    ? MAPPER.readValue(file, new TypeReference<List<GameResult>>() {})
+                    : new ArrayList<>();
+            results.add(new GameResult(playerName.get(), numberOfMoves.get(), LocalDate.now().toString(), finished));
+            MAPPER.writeValue(file, results);
+            Logger.info("Eredmény elmentve: {}", file.getAbsolutePath());
+        } catch (IOException e) {
+            Logger.error("Nem sikerült menteni az eredményt: {}", e.getMessage());
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Mentési hiba");
+            alert.setHeaderText(null);
+            alert.setContentText("Nem sikerült menteni az eredményt:\n" + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 }
+
