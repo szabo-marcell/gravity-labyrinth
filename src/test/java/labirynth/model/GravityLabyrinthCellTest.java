@@ -37,6 +37,7 @@ public class GravityLabyrinthCellTest
         assertTrue(cell2.hasWall(Direction.SOUTH));
         assertTrue(cell3.hasWall(Direction.NORTH));
         assertTrue(cell3.hasWall(Direction.EAST));
+        assertTrue(cell3.hasWall(Direction.SOUTH));
         assertFalse(cell3.hasWall(Direction.WEST));
     }
     @Test

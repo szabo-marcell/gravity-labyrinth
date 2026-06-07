@@ -247,9 +247,6 @@ public class GravityLabyrinthController {
 
     /**
      * Registers keyboard accelerators on the scene after it has been attached to the board.
-     * Arrow keys and WASD keys trigger moves; Ctrl+R resets; Ctrl+Q exits.
-     * Uses {@link Platform#runLater} because the scene is not yet available during
-     * {@link #initialize()}.
      */
     private void setupAccelerators() {
         Platform.runLater(() -> {
@@ -284,10 +281,6 @@ public class GravityLabyrinthController {
 
     /**
      * Validates and executes a move in the given direction.
-     * If the move is illegal (wall blocks it), a warning is logged and nothing happens.
-     * After a legal move, checks whether the puzzle is solved and shows the result dialog
-     * if so.
-     *
      * @param direction the direction in which the disk should slide
      */
     private void processMove(Direction direction) {
