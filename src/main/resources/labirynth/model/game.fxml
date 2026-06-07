@@ -5,17 +5,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="16.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="CENTER" spacing="8.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="labirynth.gui.GravityLabyrinthController"
       style="-fx-background-color: #1a1a2e;">
     <padding>
-        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+        <Insets bottom="24.0" left="24.0" right="24.0" top="6.0" />
     </padding>
     <children>
 
         <VBox alignment="CENTER" spacing="4.0">
-            <Label text="Gravity Labyrinth"
-                   style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #c8d6f8; -fx-font-family: 'Segoe UI';" />
+            <Hyperlink text="Gravity Labyrinth" onAction="#onAboutButton"
+                       style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #c8d6f8; -fx-font-family: 'Segoe UI';
+                              -fx-border-color: transparent; -fx-underline: true; -fx-cursor: hand;" />
             <Label text="Gördítsd a golyót a célmezőre a lehető legkevesebb lépéssel!"
                    style="-fx-font-size: 13; -fx-text-fill: #8892b0;" />
         </VBox>
@@ -79,13 +80,18 @@
 
             <VBox alignment="CENTER" spacing="8.0">
                 <Button fx:id="resetButton" text="Újrakezd" onAction="#onResetButton"
-                        prefWidth="100" prefHeight="40"
+                        prefWidth="100" prefHeight="25"
                         style="-fx-font-size: 14; -fx-background-color: #4a6f22; -fx-text-fill: white;
                                -fx-background-radius: 8; -fx-cursor: hand;" />
                 <Button fx:id="exitButton" text="Kilépés" onAction="#onExitButton"
-                        prefWidth="100" prefHeight="40"
+                        prefWidth="100" prefHeight="25"
                         style="-fx-font-size: 14; -fx-background-color: #7a2020; -fx-text-fill: white;
                                -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button fx:id="helpButton" text="Segítő" onAction="#onHelpButton"
+                        prefWidth="100" prefHeight="25"
+                        style="-fx-font-size: 14; -fx-background-color: #6767ff; -fx-text-fill: white;
+                               -fx-background-radius: 8; -fx-cursor: hand;" />
+
             </VBox>
         </HBox>
 

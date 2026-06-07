@@ -65,6 +65,7 @@ public class GravityLabyrinthController {
 
     private final StringProperty playerName = new SimpleStringProperty("");
 
+    private static final String DEVELOPER_NAME = "Szabó Marcell";
     /**
      * Sets the player name displayed in the move counter label.
      *
@@ -232,6 +233,16 @@ public class GravityLabyrinthController {
     private void onExitButton() {
         Platform.exit();
     }
+    @FXML
+    private void onHelpButton()
+    {
+        helpGame();
+    }
+    @FXML
+    private void onAboutButton()
+    {
+        aboutGame();
+    }
 
     /**
      * Binds the move counter label and text field to the {@link #playerName} and
@@ -255,6 +266,8 @@ public class GravityLabyrinthController {
             if (scene != null) {
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN), this::resetGame);
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN), Platform::exit);
+                scene.getAccelerators().put(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN), this::helpGame);
+                scene.getAccelerators().put(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN), this::aboutGame);
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.UP),    () -> processMove(Direction.NORTH));
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.RIGHT),  () -> processMove(Direction.EAST));
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.DOWN),   () -> processMove(Direction.SOUTH));
@@ -265,6 +278,40 @@ public class GravityLabyrinthController {
                 scene.getAccelerators().put(new KeyCodeCombination(KeyCode.A),      () -> processMove(Direction.WEST));
             }
         });
+    }
+
+    private void helpGame() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Segítőfül");
+        alert.setHeaderText("Gravitációs Labirintus");
+        alert.setContentText("""
+               Képzelj el egy fent látható játéktáblát!
+               A gravitációs labirintus lényege,
+               hogy a startcellán álló korongot a célcellába kell juttatnia a játékosnak úgy,
+               hogy a golyó csak jobbra, balra, felfele és lefele mozoghat,
+               és minden egyes mozgásnál el kell gurulnia egy falig,
+              pont úgy, mintha a korongot egy vonzóerő mozgatná.
+               """
+        );
+        alert.showAndWait();
+    }
+    private void aboutGame() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Információs fül");
+        alert.setHeaderText("Gravitációs Labirintus");
+        alert.setContentText("""
+                Fejlesztette: %s
+                Java-forgalmazó: %s
+                Java-verzió: %s
+                JavaFX-verzió: %s
+                """.formatted(
+                        DEVELOPER_NAME,
+                        System.getProperty("java.vendor"),
+                        System.getProperty("java.version"),
+                        System.getProperty("javafx.version")
+                )
+        );
+        alert.showAndWait();
     }
 
     /**
