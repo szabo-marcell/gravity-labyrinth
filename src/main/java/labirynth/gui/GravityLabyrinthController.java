@@ -257,7 +257,7 @@ public class GravityLabyrinthController {
     }
 
     /**
-     * Shows the result history which it reads from the result history file.
+     * Shows the result history which is read from the result history file.
      */
     public void onHistoryButton()
     {
