@@ -23,9 +23,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import labirynth.model.*;
 import org.pmw.tinylog.Logger;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,6 +60,12 @@ public class GravityLabyrinthController {
 
     @FXML
     private Button exitButton;
+
+    @FXML
+    private Button helpButton;
+
+    @FXML
+    private Button historyButton;
 
     @FXML
     private TextField numberOfMovesField;
@@ -250,6 +256,9 @@ public class GravityLabyrinthController {
         resetGame();
     }
 
+    /**
+     * Shows the result history which it reads from the result history file.
+     */
     public void onHistoryButton()
     {
         var file = RESULTS_FILE.toAbsolutePath().toFile();
@@ -441,6 +450,8 @@ public class GravityLabyrinthController {
     /**
      * Appends the current game result to a file.
      * If the file does not yet exist an empty list is created first.
+     * @param finished it shows whether the attempt was succesfful or whether it was
+     * resetted or aborted.
      */
     private void saveResult(boolean finished) {
         var file = RESULTS_FILE.toAbsolutePath().toFile();
