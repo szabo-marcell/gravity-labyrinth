@@ -8,6 +8,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -249,6 +250,28 @@ public class GravityLabyrinthController {
         resetGame();
     }
 
+    public void onHistoryButton()
+    {
+        var file = RESULTS_FILE.toAbsolutePath().toFile();
+        GameResults eredmenyek = new GameResults(new ArrayList<>());
+        try {
+            if (file.exists()) {
+                List<GameResult> lista = MAPPER.readValue(file, new TypeReference<List<GameResult>>() {});
+                eredmenyek = new GameResults(lista);
+            }
+        }
+        catch(Exception e)
+        {
+            Logger.error("Nem sikerült beolvasni az eredményeket: {}", e.getMessage());
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Eredménylista");
+        alert.setHeaderText("Eredménylista");
+        alert.setContentText(eredmenyek.toString());
+        alert.showAndWait();
+
+    }
+
     /**
      * Handles the Exit button click; terminates the JavaFX application.
      */
@@ -437,5 +460,7 @@ public class GravityLabyrinthController {
             alert.showAndWait();
         }
     }
+
+
 }
 
